@@ -3,8 +3,8 @@
  * Copyright(c) 2012 Johnny Halife <johnny@mural.ly>
  * Mantained by Mural.ly Team <dev@mural.ly>
  */
-var Store = require('connect').session.Store,
-		util = require('util');
+var Store = require('express-session');
+var util = require('util');
 
 /**
  * Connect Framework Middleware abstraction for
