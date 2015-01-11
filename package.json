@@ -1,6 +1,6 @@
 {
   "name": "connect-mongoskin",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Connect's durable sessions middleware backed by MongoSkin",
   "keywords": [
     "connect",
@@ -11,11 +11,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/johnnyhalife/connect-mongoskin.git"
+    "url": "git://github.com/Dids/connect-mongoskin.git"
   },
   "dependencies": {
-    "connect": "2.3.9",
-    "mongoskin": "0.6.1"
+    "connect": "3.3.4",
+    "mongoskin": "1.4.4"
   },
   "engines": {
     "node": ">=0.6.0",
