@@ -23,7 +23,7 @@ module.exports = SkinStore = function (options)
 {
 	if (!options.db) throw(new Error('You must provide a `db` (SkinDb object)'));
 
-	this.db = options.d;
+	this.db = options.db;
 	this.sessions = this.db.collection('sessions_');
   	this.sessions.ensureIndex({expires: 1}, {expireAfterSeconds: 0}, function() {});
 
