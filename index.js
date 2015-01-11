@@ -3,7 +3,8 @@
  * Copyright(c) 2012 Johnny Halife <johnny@mural.ly>
  * Mantained by Mural.ly Team <dev@mural.ly>
  */
-var Store = require('express-session');
+var session = require('express-session');
+var Store = require('connect-mongo')(session);
 var util = require('util');
 
 /**
@@ -19,7 +20,7 @@ module.exports = SkinStore = function (skinDb, options, callback) {
 
 	this.db = skinDb;
 	this.sessions = this.db.collection('sessions_');
-  this.sessions.ensureIndex({expires: 1}, {expireAfterSeconds: 0}, function() {});
+  	this.sessions.ensureIndex({expires: 1}, {expireAfterSeconds: 0}, function() {});
 
 	Store.call(this, options);
 };
