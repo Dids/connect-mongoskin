@@ -1,7 +1,10 @@
 /*!
- * connect-mongoskin
- * Copyright(c) 2012 Johnny Halife <johnny@mural.ly>
- * Mantained by Mural.ly Team <dev@mural.ly>
+ * connect-mongoskin (fork)
+ * Based on Johnny Halife's connect-mongoskin.
+ * Kept up-to-date by Pauli 'Dids' Jokela <pauli.jokela@didstopia.com>
+ * 
+ * Original copyright(c) 2012 Johnny Halife <johnny@mural.ly>
+ * Previously maintained by Mural.ly Team <dev@mural.ly>
  */
 var session = require('express-session');
 var Store = require('connect-mongo')(session);
@@ -12,13 +15,15 @@ var util = require('util');
  * using it with MongoSkin (https://github.com/kissjs/node-mongoskin)
  *
  * @param {SkingDb}		skinDb
- * @param {*=}				options
+ * @param {*=}			options
  * @param {Function}	callback
  */
-module.exports = SkinStore = function (skinDb, options, callback) {
-	if(!skinDb) throw(new Error('You must provide a `db` (SkinDb object)'));
+//module.exports = SkinStore = function (skinDb, options, callback)
+module.exports = SkinStore = function (options)
+{
+	if (!options.db) throw(new Error('You must provide a `db` (SkinDb object)'));
 
-	this.db = skinDb;
+	this.db = options.d;
 	this.sessions = this.db.collection('sessions_');
   	this.sessions.ensureIndex({expires: 1}, {expireAfterSeconds: 0}, function() {});
 
@@ -34,9 +39,11 @@ util.inherits(SkinStore, Store);
  * @param  {string}   sid
  * @param  {Function} callback
  */
-SkinStore.prototype.get = function (sid, callback) {
-	this.sessions.findOne({_id: sid }, function (err, row) {
-		if(err || !row) return callback(err, row);
+SkinStore.prototype.get = function (sid, callback)
+{
+	this.sessions.findOne({ _id: sid }, function (err, row)
+	{
+		if (err || !row) return callback(err, row);
 
 		var session = typeof row.session === 'string' ? JSON.parse(row.session) : row.session;
 		callback(null, session);
@@ -47,17 +54,20 @@ SkinStore.prototype.get = function (sid, callback) {
  * Stores a session row on the persistance store.
  *
  * @param {string}		sid
- * @param {*}					session
+ * @param {*}			session
  * @param {Function}	callback
  */
-SkinStore.prototype.set = function (sid, session, callback) {
-	var values = {_id: sid, session: JSON.stringify(session) };
+SkinStore.prototype.set = function (sid, session, callback)
+{
+	var values = { _id: sid, session: JSON.stringify(session) };
 
-	if(session && session.cookie && session.cookie.expires) {
+	if (session && session.cookie && session.cookie.expires)
+	{
 		values.expires = new Date(session.cookie.expires);
 	}
 
-	this.sessions.update({_id: sid}, values, {upsert: true}, function () {
+	this.sessions.update({_id: sid}, values, {upsert: true}, function ()
+	{
 		callback.apply(this, arguments);
 	});
 };
@@ -68,7 +78,8 @@ SkinStore.prototype.set = function (sid, session, callback) {
  * @param  {string}   sid
  * @param  {Function} callback
  */
-SkinStore.prototype.destroy = function (sid, callback) {
+SkinStore.prototype.destroy = function (sid, callback)
+{
 	this.sessions.remove({_id: sid}, {safe: false}, callback);
 };
 
@@ -77,7 +88,8 @@ SkinStore.prototype.destroy = function (sid, callback) {
  *
  * @param  {Function} callback
  */
-SkinStore.prototype.clear = function (callback) {
+SkinStore.prototype.clear = function (callback)
+{
 	this.sessions.drop(callback);
 };
 
@@ -87,6 +99,7 @@ SkinStore.prototype.clear = function (callback) {
  *
  * @param  {Function} callback
  */
-SkinStore.prototype.count = function (callback) {
+SkinStore.prototype.count = function (callback)
+{
 	this.sessions.count(callback);
 };
