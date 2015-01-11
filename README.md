@@ -1,3 +1,5 @@
+## Note: Note working as of now.
+
 # MongoSkin Session Store
 
 Simple Session Store for [Connect() Framework][1] session Middleware that leverages an existing connection from [MongoSkin][3]
