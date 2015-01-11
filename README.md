@@ -1,4 +1,4 @@
-## Note: Note working as of now.
+## Note: NOT working as of now.
 
 # MongoSkin Session Store
 
